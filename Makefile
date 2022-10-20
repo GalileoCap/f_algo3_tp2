@@ -42,7 +42,7 @@ ej1_submit: builddir
 	@printf "TODO: Submit EJ1"
 
 ej2_submit: builddir
-	@printf "TODO: Submit EJ2"
+	@printf "To submit ej2 do: \ncat $(ej2DIR)/{utils.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@\n"
 
 ej3_submit: builddir
 	@printf "TODO: Submit EJ3"
