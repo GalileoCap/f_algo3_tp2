@@ -1,75 +1,23 @@
+#include "utils.h"
+#include "disjoint.h"
+#include "dfs.h"
+
 #include <iostream>
-#include <vector>
-
-#ifdef DEBUG
-#include <cstdio>
-#endif // DEBUG
-
-enum color_t {
-  WHITE, GREY, BLACK
-};
-
-using AdjacencyMatrix = std::vector<std::vector<int>>;
-
-void connect(AdjacencyMatrix& adj, int p, int q) {
-  adj[p].push_back(q);
-  adj[q].push_back(p);
-}
-
-int find(std::vector<int>& parent, int x) {
-  if (parent[x] != x) parent[x] = find(parent, parent[x]);
-  return parent[x];
-}
-
-void join(std::vector<int>& parent, int x, int y) {
-  parent[find(parent, x)] = find(parent, y);
-}
-
-void dfsTimes(const AdjacencyMatrix& adj, int p, int& currTime, std::vector<int>& timeIn, std::vector<color_t>& color) {
-  color[p] = GREY;
-  timeIn[p] = currTime++;
-
-  for (int q : adj[p])
-    if (color[q] == WHITE)
-      dfsTimes(adj, q, currTime, timeIn, color);
-
-  color[p] = BLACK;
-}
-
-void dfsParent(const AdjacencyMatrix& adj, int p, std::vector<int>& parents) {
-  for (int q : adj[p])
-    if (parents[q] == -1) {
-      parents[q] = p;
-      dfsParent(adj, q, parents);
-    }
-}
-
-int dfsBridge(const AdjacencyMatrix& adj, int p, const std::vector<int> timeIn, const std::vector<int>& parents, std::vector<bool>& bridgeWithParent) {
-  int count = 0;
-  for (int q : adj[p]) {
-    if (parents[q] == p) count += dfsBridge(adj, q, timeIn, parents, bridgeWithParent);
-    else {
-      if (timeIn[q] < timeIn[p] && q != parents[p]) count++; //A: (p, q) is a back edge going up
-      else if (timeIn[q] > timeIn[p]) count--; //A: (p, q) is a back edge going down
-    }
-  }
-  bridgeWithParent[p] = count == 0 && parents[p] != p;
-  return count;
-}
 
 int main(void) {
   while (true) {
-    int R, C, Q; //U: Rooms, Corridors, Queries
+    int R, C, Q; //U: Rooms, Corridors, Queries; NOTE: |V| = R, |E| = C
     std::cin >> R >> C >> Q;
     if (R == 0 || C == 0 || Q == 0) break; //A: No more tests
 
-    //A: Input the maze
+    //A: Input the maze; O(C)
     AdjacencyMatrix maze(R);
     for (int i = 0, A, B; i < C; i++) {
       std::cin >> A >> B; //A: Corridor between rooms A and B
       connect(maze, A-1, B-1); //NOTE: The data is 1-indexed
     }
 
+    //A: Calculate the parent and whether the connection with the parent is a bridge; O(R + C)
     std::vector<int> parents(R, -1);
     std::vector<int> times(R, -1);
     std::vector<color_t> colors(R, WHITE);
@@ -87,14 +35,16 @@ int main(void) {
       printf("%i: parent=%i, bridgeWithParent=%i\n", p, parents[p], (bridgeWithParent[p]) ? 1 : 0);
 #endif // DEBUG
 
-    std::vector<int> group(R);
+    //A: Create a disjoint set; O(R)
+    DisjointSet group(R);
     for (int p = 0; p < R; p++) group[p] = p;
 
-    for (int p = 0; p < R; p++) //NOTE: Skip over the first one
+    //A: Connect all the nodes that have a path of bridges between them; O(R)
+    for (int p = 0; p < R; p++)
       if (bridgeWithParent[p])
         join(group, p, parents[p]);
 
-    //A: Solve each query
+    //A: Solve each query; O(1) each
     for (int query = 0, S, T; query < Q; query++) {
       std::cin >> S >> T;
       std::cout << (find(group, S-1) == find(group, T-1) ? "Y" : "N") << std::endl;
