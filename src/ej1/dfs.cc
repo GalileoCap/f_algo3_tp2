@@ -50,3 +50,17 @@ int dfsBridge(
   bridgeWithParent[p] = count == 0 && parents[p] != p;
   return count;
 }
+
+void dfsRoot(
+  const AdjacencyMatrix& adj,
+  int p,
+  const std::vector<int>& parents,
+  std::vector<int>& roots
+) {
+  for (int q : adj[p]) {
+    if (parents[q] == p) {
+      roots[q] = roots[p];
+      dfsRoot(adj, q, parents, roots);
+    }
+  }
+}

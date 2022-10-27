@@ -1,5 +1,4 @@
 #include "utils.h"
-#include "disjoint.h"
 #include "dfs.h"
 
 #include <iostream>
@@ -35,19 +34,24 @@ int main(void) {
       printf("%i: parent=%i, bridgeWithParent=%i\n", p, parents[p], (bridgeWithParent[p]) ? 1 : 0);
 #endif // DEBUG
 
-    //A: Create a disjoint set; O(R)
-    DisjointSet group(R);
-    for (int p = 0; p < R; p++) group[p] = p;
-
-    //A: Connect all the nodes that have a path of bridges between them; O(R)
+    //A: Rebuild the maze with only the bridges; O(R + C)
+    AdjacencyMatrix onlyBridges(R);
     for (int p = 0; p < R; p++)
       if (bridgeWithParent[p])
-        join(group, p, parents[p]);
+        connect(onlyBridges, parents[p], p);
+
+    //A: Identify each node in each tree by its root; O(R + C)
+    std::vector<int> roots(R, -1);
+    for (int p = 0; p < R; p++)
+      if (roots[p] == -1) {
+        roots[p] = p;
+        dfsRoot(onlyBridges, p, parents, roots);
+      }
 
     //A: Solve each query; O(1) each
     for (int query = 0, S, T; query < Q; query++) {
       std::cin >> S >> T;
-      std::cout << (find(group, S-1) == find(group, T-1) ? "Y" : "N") << std::endl;
+      std::cout << (roots[S-1] == roots[T-1] ? "Y" : "N") << std::endl;
     }
 
     std::cout << "-" << std::endl; //A: Separator between test results

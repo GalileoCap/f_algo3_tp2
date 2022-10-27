@@ -29,3 +29,12 @@ int dfsBridge(
   const std::vector<int>& parents,
   std::vector<bool>& bridgeWithParent
 );
+
+//U: Sets the root of the tree for each node when doing DFS from p
+//Time complexity: O(|V| + |E|)
+void dfsRoot(
+  const AdjacencyMatrix& adj,
+  int p,
+  const std::vector<int>& parents,
+  std::vector<int>& roots
+);
