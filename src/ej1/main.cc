@@ -10,7 +10,7 @@ int main(void) {
     if (R == 0 || C == 0 || Q == 0) break; //A: No more tests
 
     //A: Input the maze; O(C)
-    AdjacencyMatrix maze(R);
+    AdjacencyMatrix maze(R); //TODO: Reserve space for R edges on each node
     for (int i = 0, A, B; i < C; i++) {
       std::cin >> A >> B; //A: Corridor between rooms A and B
       connect(maze, A-1, B-1); //NOTE: The data is 1-indexed
