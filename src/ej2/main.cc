@@ -5,7 +5,8 @@
 struct DisjointSet {
   struct Data {
     int size;
-    std::vector<int> max;
+    std::vector<int> min; //A: Minimum out edge
+    std::vector<int> max; //A: Maximum out edge
   };
 
   DisjointSet(int n);
@@ -15,6 +16,7 @@ struct DisjointSet {
 
   int& size(int v);
   int& max(int v, int w);
+  int& min(int v, int w);
 
   std::vector<int> repr;
   std::vector<struct Data> data;
@@ -22,7 +24,7 @@ struct DisjointSet {
 
 DisjointSet::DisjointSet(int n) :
   repr(n, -1),
-  data(n, {1, std::vector<int>(n, -1)})
+  data(n, {1, std::vector<int>(n, INT_MAX), std::vector<int>(n, INT_MIN)})
   {}
 
 int& DisjointSet::size(int v) {
@@ -38,14 +40,34 @@ int& DisjointSet::max(int v, int w) {
   return mwv;
 }
 
+int& DisjointSet::min(int v, int w) {
+  v = find(v); w = find(w);
+  int &mvw = data[v].min[w],
+      &mwv = data[w].min[v];
+  mvw = std::min(mvw, mwv);
+  mwv = std::min(mvw, mwv);
+  return mwv;
+}
+
 int DisjointSet::unite(int v, int w) {
   v = find(v); w = find(w);
   if (v == w) return size(v); //A: Nothing to do
   if (size(v) < size(w)) std::swap(v, w); //TODO: Is this needed?
 
   size(v) += size(w);
-  for (int u = 0; u < repr.size(); u++)
+#ifdef DEBUG
+  printf("%i:\n", v+1);
+#endif
+  for (int u = 0; u < repr.size(); u++) {
+#ifdef DEBUG
+    printf("%i (%i/%i) -> ", u+1, max(v, u), min(v, u));
+#endif
     max(v, u) = std::max(max(v, u), max(w, u));
+    min(v, u) = std::min(min(v, u), min(w, u));
+#ifdef DEBUG
+    printf("(%i/%i)\n", u, max(v, u), min(v, u));
+#endif
+  }
   repr[w] = v;
 
   return size(v);
@@ -56,20 +78,29 @@ int DisjointSet::find(int v) {
 }
 
 void printDisjoint(struct DisjointSet& set) {
-  printf("   ");
+  printf("    ");
   for (int v = 0; v < set.repr.size(); v++)
-    if (v == set.find(v)) printf(" %i ", v+1);
+    if (v == set.find(v)) printf("  %i  ", v+1);
   printf("\n");
 
   for (int v = 0; v < set.repr.size(); v++) {
     if (v == set.find(v)) {
       printf("%i: ", v+1);
       for (int w = 0; w <= v; w++)
-        if (v == w) printf(" - ");
-        else if (w == set.find(w)) printf("% i ", set.max(v, w));
+        if (v == w) {
+          printf(" -");
+          if (set.min(v, w) == INT_MAX) printf("/- ");
+          else printf("/%i ", set.min(v, w));
+        }
+        else if (w == set.find(w)) {
+          printf("% i", set.max(v, w));
+          if (set.min(v, w) == INT_MAX) printf("/- ");
+          else printf("/%i ", set.min(v, w));
+        }
       printf("\n");
     }
   }
+
   printf("\n");
 }
 
@@ -80,6 +111,9 @@ int main(void) {
   for (int test = 0; test < T; test++) {
     int n, m; //U: |V|, |E|
     std::cin >> n >> m;
+#ifdef DEBUG
+    printf("[test] %u %u %u\n", test+1, n, m);
+#endif
 
     //A: Input the weighed graph; O(n + m)
     struct DisjointSet set(n);
@@ -89,6 +123,7 @@ int main(void) {
       v--; w--; //NOTE: The input is 1-indexed
       edges[i] = {v, w, k};
       set.max(v, w) = k;
+      set.min(v, w) = k;
     }
 #ifdef DEBUG
     printDisjoint(set);
@@ -105,7 +140,7 @@ int main(void) {
         int sum = set.unite(v, w);
         for (int u = 0; u < n; u++)
           if (set.find(u) != set.find(v))
-            counts &= weight > set.max(v, u);
+            counts &= set.min(v, v) > set.max(v, u);
 
         res += sum * counts;
 #ifdef DEBUG
