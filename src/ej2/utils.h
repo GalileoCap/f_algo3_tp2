@@ -19,3 +19,5 @@ struct Edge {
     const struct Edge& f
   );
 };
+
+void logMsg(const char msg[], ...); //U: Prints only if in debug mode

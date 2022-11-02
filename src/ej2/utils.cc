@@ -6,3 +6,12 @@ bool Edge::greaterThan(
 ) {
   return e.weight > f.weight;
 }
+
+void logMsg(const char msg[], ...) {
+#ifdef DEBUG
+  va_list args;
+  va_start(args, msg);
+  vprintf(msg, args);
+  va_end(args);
+#endif //DEBUG
+}
