@@ -27,13 +27,13 @@ submit: clean builddir ej1_submit ej2_submit ej3_submit ej4_submit
 ej%: builddir $@_main $@_test $@_debug $@_submit
 
 %_main: builddir
-	$(CXX) $(CFLAGS) $($*DIR)/*.cc -o $(BUILDDIR)/$*
+	$(CXX) $(CFLAGS) -I$($*DIR) $($*DIR)/*.cc -o $(BUILDDIR)/$*
 
 %_debug: builddir
-	$(CXX) $(CFLAGS) -g -D DEBUG $($*DIR)/*.cc -o $(BUILDDIR)/$@
+	$(CXX) $(CFLAGS) -I$($*DIR) -g -D DEBUG $($*DIR)/*.cc -o $(BUILDDIR)/$@
 
 %_test: builddir
-	$(CXX) $(CFLAGS) \
+	$(CXX) $(CFLAGS) -I$($*DIR) \
 		$(filter-out $($*DIR)/main.cc, $(wildcard $($*DIR)/*.cc)) \
 		test/{$*,gtest-1.8.1/*}.cc \
 		-o $(BUILDDIR)/$@
