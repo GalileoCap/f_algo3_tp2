@@ -10,7 +10,7 @@
 ## Instrucciones
 
 Los archivos fuente para cada ejercicio se encuentran en su propio directorio dentro de `src`.  
-Pueden ser compilados usando `make` para compilar todos, o `make ej1/ej2/ej3/ej4` para cada uno. Los binarios resultantes se encuentran en el directorio `build` con el nombre `ej1`, `ej2`, `ej3`, y `ej4` respectivamente.  
+Pueden ser compilados usando `make` para compilar todos, o `make ej1_main/ej2_main/ej3_main/ej4_main` para cada uno. Los binarios resultantes se encuentran en el directorio `build` con el nombre `ej1`, `ej2`, `ej3`, y `ej4` respectivamente.  
 Las instrucciones para generar el archivo que fue entregado al Online Judge y compilarlo, pueden ser obtenidas haciendo `make submit`.  
 
 ## Notas
