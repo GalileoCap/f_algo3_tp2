@@ -10,7 +10,7 @@ int main(void) {
     if (R == 0 || C == 0 || Q == 0) break; //A: No more tests
 
     //A: Input the maze; O(C)
-    AdjacencyMatrix maze(R); //TODO: Reserve space for R edges on each node
+    AdjacencyMatrix maze; init(maze, R);
     for (int i = 0, A, B; i < C; i++) {
       std::cin >> A >> B; //A: Corridor between rooms A and B
       connect(maze, A-1, B-1); //NOTE: The data is 1-indexed
@@ -35,7 +35,7 @@ int main(void) {
 #endif // DEBUG
 
     //A: Rebuild the maze with only the bridges; O(R + C)
-    AdjacencyMatrix onlyBridges(R);
+    AdjacencyMatrix onlyBridges; init(onlyBridges, R);
     for (int p = 0; p < R; p++)
       if (bridgeWithParent[p])
         connect(onlyBridges, parents[p], p);
