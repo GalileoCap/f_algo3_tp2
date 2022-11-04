@@ -39,9 +39,8 @@ submit: clean builddir ej1_submit ej2_submit ej3_submit ej4_submit
 ej1_submit: builddir
 	@printf "To submit ej1 do: \ncat $(ej1DIR)/{utils.h,dfs.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@\n"
 
-
 ej2_submit: builddir
-	@printf "TODO: Submit EJ2\n"
+	@printf "To submit ej2 do: \ncat $(ej2DIR)/{utils.h,disjoint.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@\n"
 
 ej3_submit: builddir
 	@printf "TODO: Submit EJ3\n"
