@@ -39,12 +39,10 @@ int main(void) {
     }
 #endif // DEBUG
 
-    //U: Calculate shortest distance between the every node and the usher
-    //Time complexity: O(|E| log(|V|))
+    //U: Calculate shortest distance between the every node and the usher; O(|E| log(|V|))
     std::vector<int> distance = dijkstra(adj, USHER);
 
-    //U: Get the length of the shortest cycle containing the usher
-    //Time complexity: O(|V|)
+    //U: Get the length of the shortest cycle containing the usher; O(|V|)
     int min = INT_MAX;
     for (const struct Edge &e : rev[USHER])
       if (distance[e.w] != INT_MAX && (distance[e.w] + e.weight) < min)
