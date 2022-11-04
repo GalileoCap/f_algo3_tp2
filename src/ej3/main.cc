@@ -49,19 +49,9 @@ int main(void) {
     for (const struct Edge &e : rev[USHER])
       if (distance[e.w] != INT_MAX && (distance[e.w] + e.weight) < min)
         min = distance[e.w] + e.weight;
-    //std::cerr << dataset+1 << ": " << b << ' ' << min << std::endl;
 
-    //U: Calculate the number of dollars the usher will be able to steal; O(b), but b <= 10e6 => O(10e6) = O(1)
-    //TODO: There's got to be an equation for this
-    //int res = min < b ? b / min : 0;
-    int res = 0, count = 0;
-    if (min != INT_MAX) {
-      while (min < b) {
-        if ((count += min) >= b) break;
-        count--;
-        res++;
-      }
-    }
+    //U: Calculate the number of dollars the usher will be able to steal; O(1)
+    int res = min < b ? ((b - min - 1) / (min-1) + 1) : 0;
     std::cout << res << std::endl;
   }
 
