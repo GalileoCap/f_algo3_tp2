@@ -43,7 +43,7 @@ ej2_submit: builddir
 	@printf "To submit ej2 do: \ncat $(ej2DIR)/{utils.h,disjoint.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@\n"
 
 ej3_submit: builddir
-	@printf "TODO: Submit EJ3\n"
+	@printf "To submit ej3 do:\ncat $(ej3DIR)/{utils.h,dijkstra.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@\n"
 
 ej4_submit: builddir
 	@printf "TODO: Submit EJ4\n"
