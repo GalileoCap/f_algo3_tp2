@@ -3,17 +3,19 @@
 
 // NO LEE EL MENOS
 int main(void) {
-  // k = ecuaciones; n = cant variables; m = size del conjunto D
+  // k = equations; n = unknowns; m = size of D set
   int tests, k, n, m; 
   std::vector<int> D;
   std::vector<std::vector<int>> equations;
-  // vector<vector<int>> results;
+  std::vector<bool> feasibleSolutions;
+  std::vector<finiteSetRestrictedSDC> SRD; 
    
   std::cin >> tests;
-  
+  feasibleSolutions.resize(tests);
+
   while(tests > 0) {
     // Inputs
-    // Problem variables
+    // Unknowns for the problem
     std::cin >> k >> n >> m;
     equations.resize(k);
     D.resize(m,0);
@@ -35,15 +37,19 @@ int main(void) {
     }
 
     // Algorithm
-    finiteSetRestrictedSDC SRD(n, equations, D); 
-    bool feasibleSolution = SRD.fishburnAlgorithm();
-    
-    if(feasibleSolution) {
-      SRD.printSolutionSet();
-    } else {
-      std::cout << "insatisfactible" << std::endl;
-    }
+    finiteSetRestrictedSDC actualSRD(n, equations, D);
+    feasibleSolutions[feasibleSolutions.size() - tests] = actualSRD.fishburnAlgorithm();
+    SRD.push_back(actualSRD);
     tests--;
   }
+
+  for (int i = 0; i < feasibleSolutions.size(); i++) {
+    if(feasibleSolutions[i]) {
+        SRD[i].printSolutionSet();
+    } else {
+        std::cout << "insatisfactible" << std::endl;
+    }
+  }
+
   return 0;
 }

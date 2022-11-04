@@ -2,7 +2,7 @@
 #include<vector>
 #include<assert.h>
 
-#define NIL -2147483648 // TODO: A que llamamos NIL? -infinito
+#define NIL -1 // TODO: A que llamamos NIL? -infinito
 
 /* We define the "difference constraint struct" as a representation of: 
    xj - xi <= Bij */
@@ -10,7 +10,6 @@ struct constraint {
   int xj; // index j-1 (or element j) for solution vector, not xj value.
   int xi; // index i-1 (or element i) for solution vector, not xi value.
   int Bij;
-  int violated;
 };
 
 // System of Difference Constraints restricted by a finite set called "D" structure
@@ -28,7 +27,7 @@ struct finiteSetRestrictedSDC {
   bool fishburnAlgorithm();
 
   // Search max e s.t. e is an element of D and e is lesser than benchmark 
-  int searchMaxD(int benchmark);
+  int searchMaxDIdx(int benchmark);
 
   // Check if there's a constraint that is being violated
   // (there won't be any feasible solution)
