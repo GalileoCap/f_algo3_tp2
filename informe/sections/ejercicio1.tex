@@ -6,4 +6,61 @@
 \section{Ejercicio 1: DFS}
 \label{sec:ej1}
 
+\subsection{Presentación}
+\label{sec:ej1-intro}
+\paragraph{} La primer consigna plantea resolver el problema \textit{UVa 12363, Hedge Mazes}\footnote{\url{https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=278&page=show_problem&problem=3785}}. En el que se busca contar todas las formas de resolver un laberinto que cumplan ciertas condiciones.
+
+\paragraph{} El laberinto está formado por cuartos conectados entre sí con pasillos. Cada pasillo conecta dos cuartos y puede ser atravesado en ambas direcciones. \\
+Los caminos que se buscan encontrar son caminos que arrancan y terminan en dos cuartos dados, y no pasan por un mismo cuarto más de una vez. En específico se quiere revisar si hay un único camino que cumpla con esto.
+
+\subsection{Modelado y Algoritmo}
+\label{sec:ej1-modeling}
+\paragraph{} Modelamos este problema con un grafo no dirigido \(G = (V, E)\), donde cada nodo representa un cuarto y cada arista un pasillo. Esto nos permite resolver el problema buscando los \textbf{caminos simples}, definidos como un camino dentro del grafo que no repite nodos, entre cualquier par de nodos, y revisando si son únicos.
+
+\begin{figure}[H]
+\centering
+
+\begin{tikzpicture}
+  \Vertex[x=2,y=3]{1}
+  \Vertex[x=2,y=2]{2}
+  \Vertex[x=3,y=1]{3}
+  \Vertex[x=2,y=1]{4}
+  \Vertex[x=1,y=1]{5}
+  \Vertex[x=3,y=3]{6}
+  \tikzstyle{LabelStyle}=[sloped]
+  \tikzstyle{EdgeStyle}=[]
+  \Edge[color=red](1)(2)
+  \Edge[color=red](2)(3)
+  \Edge[](2)(4)
+  \Edge[](2)(5)
+  \Edge[](4)(5)
+\end{tikzpicture}
+  
+\caption{Ejemplo de un laberinto con el único camino simple resaltado en rojo.}
+\label{fig:ej1-ex}
+\end{figure}
+
+\paragraph{} Si entre dos nodos hay más de un camino simple, se puede armar un ciclo uniéndolos. Por lo que nos interesa encontrar los caminos simples armados por aristas que no pertenezcan a ningún ciclo, llamadas aristas \textbf{puente}. \\ %TODO: Justificación dos caminos => ciclo %TODO: Resaltar que es único <=> sus aritsas no pertencen a un ciclo
+Averiguamos qué aristas son puente de manera eficientemente haciendo \textbf{Depth First Search (DFS)} sobre el grafo\cite{TODO}, buscando aquellos tree-edges que no se hagan redundantes por un back-edge. DFS es de \(\bigO{|V| + |E|}\)\cite{TODO}. \\ %TODO: Mejor explicación tree-edge/back-edge
+Una vez encontradas todas las aristas puente, reconstruimos el grafo quedándonos sólo con estas aristas. Lo que arma un subgrafo armado por árboles donde dos nodos pertenecen a un mismo árbol sí y sólo si hay un único camino simple entre ellos. Esto lo hacemos nuevamente con DFS. \\
+Y luego hacemos DFS sobre este subgrafo marcando a cada nodo con la raíz de su árbol como su representante, lo que nos permite averiguar si dos nodos tienen un único camino entre ellos en \(\bigO{1}\), revisando si tienen misma raíz. %TODO: Mejor que "marcando"
+
+\begin{figure}[H]
+\centering
+
+\begin{tikzpicture}
+  \Vertex[x=0,y=5,L=1(1)]{1}
+  \Vertex[x=0,y=3,L=2(1)]{2}
+  \Vertex[x=0,y=1,L=3(1)]{3}
+  \Vertex[x=2,y=5,L=4(4)]{4}
+  \Vertex[x=4,y=5,L=5(5)]{5}
+  \Vertex[x=6,y=5,L=6(6)]{6}
+  \Edge[](1)(2)
+  \Edge[](2)(3)
+\end{tikzpicture}
+  
+\caption{El grafo de la figura \ref{fig:ej1-ex} separado en los árboles con los representes entre paréntesis.}
+\label{fig:ej1-res}
+\end{figure}
+
 \end{document}
