@@ -6,6 +6,7 @@
 
 #ifdef DEBUG
 #include <cstdio>
+#include <cstdarg>
 #endif // DEBUG
 
 struct Edge {
