@@ -3,6 +3,16 @@
 \begin{document}
 
 \section{Ejercicio 4: Sistemas de restricciones de diferencias}
-\label{sec:ej4}
+
+\subsection{Presentación}
+\label{sec:ej4-intro}
+\paragraph{} Este último ejercicio plantea resolver un sistema de ecuaciones utilizando el algoritmo de Fishburn. %TODO: Referencia
+
+\paragraph{} Se tiene un sistema \(\mathcal{S}\) de \(k\) ecuaciones sobre \(n\) variables \(x_{1}, \ldots, x_{n}\), donde cada ecuación es de la forma \(x_{i} - x_{j} \leq c_{i,j}\), y una lista \(\mathcal{D}\) de \(m\) números enteros ordenados de menor a mayor, y se quiere decidir si existe una asignación de las variables \(x_{i}\) a elementos en \(\mathcal{D}\) que satisfaga las ecuaciones del sistema. %TODO: Menos copy-pasty
+
+\subsection{Algoritmo}
+\label{sec:ej4-algo}
+\paragraph{} El algoritmo es una modificación del algoritmo \textbf{Bellman-Ford}, que busca. Primero se le asigna el valor máximo posible \(D_{m}\) a cada variable en \(\bigO{n}\). Luego para cada inecuación se reduce a \(x_{j}\) lo menos posible para que satisfaga la inecuación en \(\bigO{k}\), repitiendo esto hasta que una variable \(x_{j}\) se quede sin valores posibles o estén resueltas todas las inecuaciones. \\ %TODO: Explicar más
+En peor caso se reduce a una sola inecuación en cada paso, probando las \(m\) posibilidades para cada inecuación en \(\bigO{km}\) pasos. Por lo que el algoritmo queda \(\bigO{kmn}\).
 
 \end{document}
