@@ -42,4 +42,15 @@ Y finalmente calculamos la cantidad de dólares que el portero puede robar con l
   \]
 La complejidad total del algoritmo queda \(\bigO{|E|log(|V|) + |V|} = \bigO{|E|log(|V|)}\).
 
+\subsection{Correctitud del algoritmo}
+\label{sec:ej3-proof}
+\paragraph{} Queremos determinar el monto máximo que el portero puede llegar a robar de la caja con capacidad $C$, de entre todos los posibles recorridos que existen entre el portero y los feligreses. El digrafo $G$ modela estas relaciones. \\
+Sea $u$ el vértice que hace referencia al portero, de $u$ salen aristas de \textit{costo 0} hacia aquellos feligreses a los que puede pasarles la caja. Por otro lado, cada uno de los $n-1$ feligreses $f_i$ tendrá una arista incidente $e =$ ($f_i \rightarrow v$) con $c(e) = w_i$ y $v \in \lbrace u, f_1, ..., f_n \rbrace $. Con $w_i$ siendo la cantidad de monedas que tenga que poner respecto a la regla de dicha relación. La caja termina su recorrido una vez que su monto alcanza el valor $C$. Llegado este punto, el portero no podrá robar más monedas. \\
+Buscamos que la caja pase por el portero la mayor cantidad de veces posible. Para lograr esto, se necesita que el monto que se acumula parcialmente en la caja, sea m\'inimo. Para ello, el portero necesita ser un vértice en G. % Buscamos que los recorridos que pueda realizar la caja, lo incluyan a él la mayor cantidad de veces. 
+Podemos observar que la caja siempre empieza teniendo 0 monedas, asi que el portero es quien se la puede entregar a ciertos $f_i$ para que empiecen a llenarla. Entonces, ya tenemos como punto de partida a $u$. \\
+% Luego, como buscamos que la caja vuelva al portero la mayor cantidad de veces, no sólo queremos encontrar aquellos $f_i'$ que lleguen a $u$, sino que pretendemos que lo hagan con el \textbf{menor costo posible}. 
+Como la caja siempre sale de $u$, cuando la caja llegue a estos $f_i'$, y de alguno de ellos la caja regrese al portero, queda establecido un \textbf{circuito simple} que involucra a un subconjunto de feligreses y al portero. %En otras palabras, para que la caja regrese al portero, tiene que recorrer un circuito simple en G que incluya a u. 
+Para dicho circuito simple, queremos que sea el de menor costo posible, para que pueda recorrerse la mayor cantidad de veces. \\
+El algoritmo de \textbf{Dijkstra} devuelve todos los caminos de menor costo en un digrafo $G$, para un vértice particular. Este vértice queremos que sea $u$ porque justamente buscamos aquellos caminos mínimos hacia él, que permitan establecer un ciclo que lo incluya.
+
 \end{document}
