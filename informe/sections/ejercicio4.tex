@@ -13,5 +13,12 @@
 \subsection{Algoritmo}
 \label{sec:ej4-algo}
 \paragraph{} El algoritmo es una modificación del algoritmo \textbf{Bellman-Ford}, que busca, en el contexto de este ejercicio, si existe una soluci\'on factible para el conjunto de desigualdades representadas en el grafo. Primero se le asigna el valor máximo posible \(D_{m}\) a cada variable en \(\bigO{n}\). Luego para cada inecuación se reduce a \(x_{j}\) lo menos posible para que satisfaga la inecuación en \(\bigO{k}\). Es decir, se le asigna a $x_j$ el elemento $k$ tal que $(D_k$ $\leq$ $x_i + c_{j,i}) \land (\nexists$ $D_r$ con $D_r$ $>$ $D_k$ $\land$ $D_r$ $\leq$ $x_i + c_{j,i})$. Notar que esta asignaci\'on es coherente ya que $D_k$ $\leq$ $x_i + c_{j,i}$ $\iff$ $D_k - x_i \leq c_{j,i}$ $\iff$ $x_j - x_i \leq c_{j,i}$, que es justamente lo que estamos buscando para cada inecuaci\'on. Esto lo repetimos hasta que una variable \(x_{j}\) se quede sin valores posibles o estén resueltas todas las inecuaciones. Finalmente, en base a todas las asignaciones de cada $x \in X$ con su respectivo elemento $k \in D$, si el conjunto $X$ efectivamente arroja una soluci\'on factible, entonces $X = \lbrace D_{k_1}, D_{k_2}, ..., D_{k_n} \rbrace$. \\
-En peor caso se reduce a una sola inecuación en cada paso (recordemos que se tienen k inecuaciones), probando las \(m\) posibilidades para cada inecuación en \(\bigO{km}\) pasos. Como en cada caso se visitan a lo sumo todas las $n$ variables $x_i$, el algoritmo queda con un coste de \(\bigO{kmn}\).
+Como siempre queremos reducir a las variables por un valor menor al que tiene, en la implementación aprovechamos eso y para cada variable recorremos una sola vez el conjunto \(\mathcal{D}\) de mayor a menor. \\
+En peor caso se reduce a una sola variable en cada paso, probando las \(m\) posibilidades para cada inecuación en \(\bigO{km}\) pasos. Como en cada caso se visitan a lo sumo todas las $n$ variables $x_i$, el algoritmo queda con un coste de \(\bigO{kmn}\). \\
+
+\subsection{Correctitud}
+\label{sec:ej4-proof}
+
+\paragraph{} Si existe, una solución al problema es una combinación de \(\mathcal{D}\). Pero en peor caso el algoritmo prueba todas las combinaciones de asignar los valores de \(\mathcal{D}\) a las variables. Entonces, si hay solución, en alguna iteración el algoritmo la encuentra.
+
 \end{document}
