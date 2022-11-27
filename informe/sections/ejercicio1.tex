@@ -63,4 +63,17 @@ Finalmente hacemos DFS sobre este subgrafo marcando a cada nodo con la raíz de 
 \label{fig:ej1-res}
 \end{figure}
 
+\subsection{Correctitud}
+\label{sec:ej1-proof}
+
+\paragraph{} Para que el algoritmo es correcto probamos que en un grafo \(G = (V, E)\) se tiene un único camino simple \(C\) entre dos nodos \(s\) y \(t\) sí y solo sí \(C\) está compuesto por todas aristas puente.
+
+\paragraph{\(\Rightarrow)\)} Si \(C = \{s, \ldots, t\}\) es único, entonces \(C\) está compuesto por todas aristas puente. Lo probamos por el absurdo: \\
+Asumimos que no está compuesto por todas aristas puente, esto significa que hay al menos una arista \(e = (v, w)\) tal que \(e\) no es puente y \(C = \{s, \ldots, v, w, \ldots, t\}\). \\
+En ese caso en el subgrafo \(G' = G \backslash \{e\}\) hay un camino \(C' = \{s, \ldots, t\}\) que no usa a la arista \(e\), pero como \(e\) es parte de \(C\) se tiene que \(C \neq C'\). Que es absurdo porque \(C\) es único, por lo que todas las aristas de \(C\) son puente\done
+\paragraph{\(\Leftarrow)\)} Si \(C = \{s, \ldots, t\}\) está compuesto por aristas puente, entonces \(C\) es el único camino simple entre \(s\)  y \(t\). Lo probamos por el absurdo: \\
+Asumimos que hay otro camino simple \(C' = \{s, \ldots, t\}\) tal que \(C' \neq C\). Entonces se puede armar un ciclo que va de \(s\) a \(t\) por \(C\) y luego vuelve por \(C'\). Que es absurdo porque \(C\) está compuesto por todas aristas puente, por lo que no existe ningún otro camino \(C' \neq C\) entre \(s\) y \(t\)\done
+
+\paragraph{} Queda probado que un camino simple \(C = \{s, \ldots, t\}\) es único sí y solo sí \(C\) está compuesto por todas aristas puente.
+
 \end{document}
