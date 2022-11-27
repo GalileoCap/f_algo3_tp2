@@ -8,10 +8,10 @@
 
 \subsection{Presentación}
 \label{sec:ej1-intro}
-\paragraph{} La primer consigna plantea resolver el problema \textit{UVa 12363, Hedge Mazes}\footnote{\url{https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=278&page=show_problem&problem=3785}}. En el que se busca contar todas las formas de resolver un laberinto que cumplan ciertas condiciones.
+\paragraph{} La primer consigna plantea resolver el problema \textit{UVa 12363, Hedge Mazes}\footnote{\url{https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=278&page=show_problem&problem=3785}}, en el que se busca contar todas las formas de resolver un laberinto que cumplan ciertas condiciones.
 
 \paragraph{} El laberinto está formado por cuartos conectados entre sí con pasillos. Cada pasillo conecta dos cuartos y puede ser atravesado en ambas direcciones. \\
-Los caminos que se buscan encontrar son caminos que arrancan y terminan en dos cuartos dados, y no pasan por un mismo cuarto más de una vez. En específico se quiere revisar si hay un único camino que cumpla con esto.
+Los caminos que se buscan encontrar son caminos que arrancan y terminan en dos cuartos dados, y no pasan por un mismo cuarto más de una vez. En específico, se quiere revisar si hay un único camino que cumpla con esto.
 
 \subsection{Modelado y Algoritmo}
 \label{sec:ej1-modeling}
@@ -40,10 +40,10 @@ Los caminos que se buscan encontrar son caminos que arrancan y terminan en dos c
 \label{fig:ej1-ex}
 \end{figure}
 
-\paragraph{} Si entre dos nodos hay más de un camino simple, se puede armar un ciclo uniéndolos. Por lo que nos interesa encontrar los caminos simples armados por aristas \textbf{puente}, o sea que no pertenezcan a ningún ciclo, esto nos asegura que sean únicos. \\
-Averiguamos qué aristas son puente de manera eficientemente haciendo \textbf{Depth First Search (DFS)} sobre el grafo, buscando aquellos tree-edges que no se hagan redundantes por un back-edge. DFS es de \(\bigO{|V| + |E|}\). \\
-Una vez encontradas todas las aristas puente, reconstruimos el grafo quedándonos sólo con estas aristas. Lo que arma un subgrafo armado por árboles donde dos nodos pertenecen a un mismo árbol sí y sólo si hay un único camino simple entre ellos. Esto lo hacemos nuevamente con DFS. \\
-Y luego hacemos DFS sobre este subgrafo marcando a cada nodo con la raíz de su árbol como su representante, lo que nos permite averiguar si dos nodos tienen un único camino entre ellos en \(\bigO{1}\), revisando si tienen misma raíz.
+\paragraph{} Si entre dos nodos hay más de un camino simple, se puede armar un ciclo uniéndolos. Por lo que nos interesa encontrar aquellos caminos simples armados por aristas \textbf{puente}, o sea, que no pertenezcan a ningún ciclo. Esto nos asegura que son únicos. \\
+Averiguamos qué aristas son puente de manera eficiente haciendo \textbf{Depth First Search (DFS)} sobre el grafo, buscando aquellos tree-edges que no se hagan redundantes por un back-edge. La complejidad de hacer DFS es de \(\bigO{|V| + |E|}\). \\
+Una vez encontradas todas las aristas puente, reconstruimos el grafo quedándonos sólo con estas aristas. Esto arma un subgrafo conformado por árboles donde dos nodos pertenecen a un mismo árbol sí y sólo si hay un único camino simple entre ellos. Esto lo hacemos nuevamente con DFS. \\
+Finalmente hacemos DFS sobre este subgrafo marcando a cada nodo con la raíz de su árbol como su representante. Esto nos permite averiguar si dos nodos tienen un único camino entre ellos en \(\bigO{1}\), revisando si tienen misma raíz.
 
 \begin{figure}[H]
 \centering

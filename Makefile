@@ -16,12 +16,11 @@ default: main
 .PHONY: clean
 
 entrega: clean
-	zip $(ENTREGA) Makefile README.md src test -r9
+	zip $(ENTREGA) Makefile README.md consignas src -r9
 	
 all: clean builddir main debug test submit
 main: clean builddir ej1_main ej2_main ej3_main ej4_main
 debug: clean builddir ej1_debug ej2_debug ej3_debug ej4_debug
-test: clean builddir ej1_test ej2_test ej3_test ej4_debug
 submit: clean builddir ej1_submit ej2_submit ej3_submit ej4_submit
 
 %_main: builddir
@@ -29,12 +28,6 @@ submit: clean builddir ej1_submit ej2_submit ej3_submit ej4_submit
 
 %_debug: builddir
 	$(CXX) $(CFLAGS) -I$($*DIR) -g -D DEBUG $($*DIR)/*.cc -o $(BUILDDIR)/$@
-
-%_test: builddir
-	$(CXX) $(CFLAGS) -I$($*DIR) \
-		$(filter-out $($*DIR)/main.cc, $(wildcard $($*DIR)/*.cc)) \
-		test/{$*,gtest-1.8.1/*}.cc \
-		-o $(BUILDDIR)/$@
 
 ej1_submit: builddir
 	@printf "To submit ej1 do: \ncat $(ej1DIR)/{utils.h,dfs.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@\n"
