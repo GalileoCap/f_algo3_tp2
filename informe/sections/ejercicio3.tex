@@ -36,7 +36,7 @@
 \paragraph{} Va a haber una (o potencialmente varias equivalentes) secuencia de pasadas de la caja que maximiza las ganancias del portero, que en este grafo va a formar un ciclo de costo mínimo que incluye al portero. \\
 Como el grafo no tiene ninguna arista de peso negativo, y por ende ningún ciclo negativo, utilizamos el algoritmo de camino mínimo de \textbf{Dijkstra} implementado con un \textbf{min-heap} para encontrar el camino mínimo desde el portero a cualquier feligrés en \(\bigO{|E|log(|V|)}\). \\
 Luego conseguimos el ciclo mínimo revisando para cada feligrés que le puede devolver la caja al portero el costo de devolverle la caja sumado al costo del camino hacia ese feligrés. Esto se hace en \(\bigO{|V|}\). \\
-Y finalmente calculamos la cantidad de dólares que el portero puede robar con la siguiente ecuación, donde \(b\) es el tamaño de la caja y \(c_{min}\) es el costo del ciclo mínimo: \\
+Y finalmente calculamos la cantidad de dólares que el portero puede robar  con la siguiente ecuación, donde \(b\) es el tamaño de la caja y \(c_{min}\) es el costo del ciclo mínimo. La ecuación cuenta la cantidad de ciclos de peso mínimo en las que el portero se puede robar un dolar \(c_{min} - 1\) hasta que se junten los \(b\) dólares, y descuenta la última ronda en la que se alcanza el límite: \\
 \[
   \Big\lceil\dfrac{b - c_{min}}{c_{min}-1}\Big\rceil
   \]
