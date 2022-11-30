@@ -19,6 +19,7 @@ En peor caso se reduce a una sola variable en cada paso, probando las \(m\) posi
 \subsection{Correctitud}
 \label{sec:ej4-proof}
 
-\paragraph{} Si existe, una solución al problema es una combinación de \(\mathcal{D}\). Pero en peor caso el algoritmo prueba todas las combinaciones de asignar los valores de \(\mathcal{D}\) a las variables. Entonces, si hay solución, en alguna iteración el algoritmo la encuentra.
+\paragraph{} Si existe una solución del problema \(S \subseteq \mathcal{D}\), pero si el algoritmo termina sin que se cumpla alguna ecuación significa que \(x_{j} > x_{i} + c_{j,i}\) y que no hay un \(D_{k}\) tal que \(D_k \leq x_{i} + c_{j,i}\). Pero esto no puede pasar por que \(S_{j} \leq S_{i} + c_{j,i}\) ya que \(S\) es solución, y el algoritmo va a haber probado \(x_{j} = S_{j}\) ya que para cada variable prueba todos los valores del conjunto \(\mathcal{D}\). Por lo que si hay solución el algoritmo la encuentra y devuelve \texttt{true}. \\
+Y si no existe solución, entonces luego de terminar el algoritmo va a haber probado todos los valores del conjunto para cada variable y va a quedar al menos una ecuación sin satisfacer, por lo que devuelve \texttt{false}.
 
 \end{document}

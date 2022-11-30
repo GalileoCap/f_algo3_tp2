@@ -6,7 +6,7 @@
 
 \subsection{Presentación}
 \label{sec:ej3-intro}
-\paragraph{} Este ejercicio presenta el problema \textit{UVa 1233, Uhser}\footnote{\url{https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=3674}}. En el que se quiere calcular el ciclo de costo mínimo.
+\paragraph{} Este ejercicio presenta el problema \textit{UVa 1233, Uhser}\footnote{\url{https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=3674}}, en el cual se quiere calcular el ciclo de costo mínimo.
 
 \paragraph{} El problema plantea una iglesia donde los feligreses se pasan una caja donde ponen dinero, y un portero que al recibir la caja roba un dólar y la vuelve a pasar a algún feligrés. La forma en que se pasan la caja y cuánto dinero ponen está definido con unas reglas don de cada feligrés \(v\) le pasa la caja a algún otro feligrés o al portero \(w\) poniendo \(c_{v,w}\) dólares, y similarmente el portero tiene un conjunto de feligreses específicos a los que les puede pasar la caja. Una vez que la caja se llena con \(b\) dólares se pasa instantáneamente al sacerdote sin que el portero pueda robar más dólares. Se pide calcular la cantidad máxima de dólares que el portero puede llegar a robar.
 
@@ -33,14 +33,22 @@
 \label{sec:ej3-model}
 \paragraph{} Modelamos el problema con un grafo dirigido con pesos donde cada feligrés está representado por un nodo, y cada arista es una regla que puede ejecutar. Agregamos un nodo \(v_{0}\) que representa al portero con aristas de peso 0 saliendo hacia cada feligrés al que le puede dar la caja.
 
-\paragraph{} Va a haber una (o potencialmente varias equivalentes) secuencia de pasadas de la caja que maximiza las ganancias del portero, que en este grafo va a formar un ciclo de costo mínimo que incluye al portero. \\
+\paragraph{} En este digrafo habr\'a una (o potencialmente varias equivalentes) secuencia de pasadas de la caja que maximiza las ganancias del portero, formando as\'i un ciclo de costo mínimo que lo incluye. \\
 Como el grafo no tiene ninguna arista de peso negativo, y por ende ningún ciclo negativo, utilizamos el algoritmo de camino mínimo de \textbf{Dijkstra} implementado con un \textbf{min-heap} para encontrar el camino mínimo desde el portero a cualquier feligrés en \(\bigO{|E|log(|V|)}\). \\
 Luego conseguimos el ciclo mínimo revisando para cada feligrés que le puede devolver la caja al portero el costo de devolverle la caja sumado al costo del camino hacia ese feligrés. Esto se hace en \(\bigO{|V|}\). \\
-Y finalmente calculamos la cantidad de dólares que el portero puede robar  con la siguiente ecuación, donde \(b\) es el tamaño de la caja y \(c_{min}\) es el costo del ciclo mínimo. La ecuación cuenta la cantidad de ciclos de peso mínimo en las que el portero se puede robar un dolar \(c_{min} - 1\) hasta que se junten los \(b\) dólares, y descuenta la última ronda en la que se alcanza el límite: \\
+Finalmente, calculamos la cantidad de dólares que el portero puede robar. Tomamos \(b\) como el tamaño de la caja y \(c_{min}\) como el peso del ciclo mínimo, o sea, la cantidad de dólares que ponen en la caja entre todos los feligreses del ciclo. Como cada vez que la caja vuelve al portero este roba un dólar y cuando la caja se llena se la entrega al sacerdote nos interesa contar cuántas veces entran ciclos de \(c_{min} - 1\) dólares descontando el último ciclo en el que el portero no llega a robar. Entonces queda contar:
+\[
+    \overbrace{c_{min} - 1}^{\text{Un ciclo que llega a robar}} + c_{min} - 1 + \ldots + \overbrace{c_{min}}^{\text{El último ciclo}} \geq b
+\]
+\[
+    c_{min} - 1 + c_{min} - 1 + \ldots \geq b - c_{min}
+\]
+En una sola ecuación se da con:
 \[
   \Big\lceil\dfrac{b - c_{min}}{c_{min}-1}\Big\rceil
-  \]
-La complejidad total del algoritmo queda \(\bigO{|E|log(|V|) + |V|} = \bigO{|E|log(|V|)}\).
+\]
+
+\paragraph{} La complejidad total del algoritmo queda \(\bigO{|E|log(|V|) + |V|} = \bigO{|E|log(|V|)}\).
 
 \subsection{Correctitud del algoritmo}
 \label{sec:ej3-proof}
